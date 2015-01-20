@@ -15,7 +15,6 @@ conn = {
   password: node['mysql']['server_root_password']
 }
 
-include_recipe 'database::msql'
 |{ if ne .Options.Databag "" }|
 mysql_creds = Chef::EncryptedDataBagItem.load(
   '|{ .Options.Databag }|',
