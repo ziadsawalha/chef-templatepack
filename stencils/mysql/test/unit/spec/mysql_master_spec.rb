@@ -9,7 +9,7 @@ describe '|{ .Cookbook.Name }|::|{ .Options.Name }|' do
     expect(chef_run).to include_recipe('mysql-multi::mysql_master')
   end
 
-  it 'includes the database::myql recipe' do
+  it 'includes the database::mysql recipe' do
     expect(chef_run).to include_recipe('database::mysql')
   end
   |{ if ne .Options.Database ""}|
