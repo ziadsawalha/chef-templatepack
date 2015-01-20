@@ -19,6 +19,9 @@
     },
     "utility": {
       "help": "Creates some helpful utility recipes"
+    },
+    "mysql": {
+      "help": "Creates some MySQL recipes"
     }
   },
   "base": {
