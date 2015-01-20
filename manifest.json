@@ -22,9 +22,6 @@
     },
     "mysql": {
       "help": "Creates some MySQL recipes"
-    },
-    "newrelic": {
-      "help": "Adds a simple newrelic recipe"
     }
   },
   "base": {
