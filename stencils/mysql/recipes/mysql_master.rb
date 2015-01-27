@@ -29,7 +29,7 @@ end
 mysql_database_user mysql_creds['username'] do
   connection conn
   password mysql_creds['password']
-  database |{ .QString .Options.Database }|
+  database_name |{ .QString .Options.Database }|
   action :create
 end
 |{ else }|
