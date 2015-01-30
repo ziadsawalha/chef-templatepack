@@ -1,0 +1,179 @@
+---
+id: memcached
+is: cache
+provides:
+- cache: memcache
+requires:
+- host: linux
+options:
+  name:
+    help: Name of the recipe to create
+    default: memcached
+  openfor:
+    help: "Tag to open the memcached firewall for, if environment is passed it will open for the whole environment"
+stencils:  # just exploring concepts...
+- default
+- utility
+meta-data:
+  display-hints:
+    icon-20x20: "/images/memcached-icon-20x20.png"
+    tattoo: "/images/memcached-tattoo.png"
+---
+id: django
+is: application
+provides:
+- application: http
+requires:
+- host: linux
+options:
+  name:
+    help: "Name of the recipe to create"
+    default: "django_app"
+    type: string
+  hostname:
+    help: "The hostname for the application"
+    type: string
+  repo:
+    help: "The repository to deploy from"
+    default: "## Replace with the customer repository"
+    type: string
+  revision:
+    help: "The revision to check out from git"
+    default: "node.chef_environment"
+    type: string
+  owner:
+    help: "The application owner"
+    type: string
+  group:
+    help: "The owning group of the application files"
+    type: string
+  root:
+    help: "The document root to deploy the application to"
+    default: "/var/www"
+    type: string
+  migrate:
+    help: "Whether to turn on database migrations"
+    default: "true"
+    type: string
+  dbcredentials:
+    help: "Databag to pull the database credentials from, expects keys: username, password, and database"
+    type: string
+  dbsearch:
+    help: "The tag to use when searching for a database server"
+    type: string
+  dbmaster:
+    help: "The database master to set, use when not using search"
+    type: string
+    default: "localhost"
+meta-data:
+  display-hints:
+    icon-20x20: "/images/django-icon-20x20.png"
+    tattoo: "/images/django-tattoo.png"
+---
+id: rabbitmq
+---
+id: mysql
+options:
+  name:
+    help: "Name of the recipe to create"
+    default: "mysql"
+    type: string
+  openfor:
+    type: string
+    help: "Tag to open the memcached firewall for, if environment is passed it will open for the whole environment"
+  databag:
+    type: string
+    help: "The name of the data bag to load the mysql credentials from, not used for slaves"
+  database:
+    type: string
+    help: "The name of the database to create"
+  user:
+    type: string
+    help: "The user with permissions to the database, defaults to the db name"
+  password:
+    type: string
+    help: "The password for the user, ignored if databag is set"
+
+meta-data:
+  display-hints:
+    icon-20x20: "/images/mysql-icon-20x20.png"
+    tattoo: "/images/mysql-tattoo.png"
+---
+id: redis
+name: redis
+is: cache
+roles: [master, slave, sentinel]
+provides:
+- cache: redis
+requires:
+- host: linux
+options:
+  role:
+    type: string
+    display-hints:
+      choice: [master, slave, sentinel]
+meta-data:
+  display-hints:
+    icon-20x20: "/images/redis-icon-20x20.png"
+    tattoo: "/images/redis-tattoo.png"
+---
+id: redis-single
+name: redis
+is: cache
+display_name: Single Redis
+provides:
+- cache: redis
+requires:
+- host: linux
+meta-data:
+  display-hints:
+    icon-20x20: "/images/redis-icon-20x20.png"
+    tattoo: "/images/redis-tattoo.png"
+---
+id: redis-master
+name: redis
+is: cache
+display_name: Redis Master
+provides:
+- cache: redis
+requires:
+- cache: sentinel
+- host: linux
+supports:
+- cache: slave
+
+meta-data:
+  display-hints:
+    icon-20x20: "/images/redis-icon-20x20.png"
+    tattoo: "/images/redis-tattoo.png"
+---
+id: redis-slave
+name: redis
+is: cache
+display_name: Redis Slave
+provides:
+- cache: redis
+requires:
+- cache: redis
+- host: linux
+meta-data:
+  display-hints:
+    icon-20x20: "/images/redis-icon-20x20.png"
+    tattoo: "/images/redis-tattoo.png"
+
+---
+id: redis-sentinel
+name: redis
+is: cache
+display_name: Redis Sentinel
+meta-data:
+  display-hints:
+    icon-20x20: "/images/redis-icon-20x20.png"
+    tattoo: "/images/redis-tattoo.png"
+---
+id: rails
+meta-data:
+  display-hints:
+    icon-20x20: "/images/rails-icon-20x20.png"
+    tattoo: "/images/rails-tattoo.png"
+
